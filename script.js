@@ -22,6 +22,7 @@ function startCategory(category) {
       durationSec: Math.floor((now - startTime) / 1000)
     });
     localStorage.setItem("logs", JSON.stringify(logs));
+    renderHistory();
   }
 
   // If Stop button clicked, just stop tracking
@@ -60,6 +61,44 @@ function exportLogs() {
   URL.revokeObjectURL(url);
 }
 
+function renderHistory() {
+  const tbody = document.getElementById("history-body");
+  tbody.innerHTML = "";
+
+  // Display logs in reverse order (most recent first)
+  const reversedLogs = [...logs].reverse();
+
+  reversedLogs.forEach((log, reverseIndex) => {
+    const actualIndex = logs.length - 1 - reverseIndex;
+    const row = document.createElement("tr");
+
+    const startDate = new Date(log.start);
+    const startTimeStr = startDate.toLocaleString();
+
+    const durationStr = formatTime(log.durationSec);
+
+    row.innerHTML = `
+      <td>${startTimeStr}</td>
+      <td>${log.category}</td>
+      <td>${durationStr}</td>
+      <td><button class="delete-btn" data-index="${actualIndex}">Delete</button></td>
+    `;
+
+    tbody.appendChild(row);
+  });
+
+  // Add event listeners to delete buttons
+  document.querySelectorAll(".delete-btn").forEach(btn => {
+    btn.addEventListener("click", () => deleteLog(parseInt(btn.dataset.index)));
+  });
+}
+
+function deleteLog(index) {
+  logs.splice(index, 1);
+  localStorage.setItem("logs", JSON.stringify(logs));
+  renderHistory();
+}
+
 document.querySelectorAll("#categories button").forEach(btn =>
   btn.addEventListener("click", () => startCategory(btn.dataset.category))
 );
@@ -67,3 +106,6 @@ document.getElementById("export").addEventListener("click", exportLogs);
 
 // Restore previous active category visually if needed
 updateElapsed();
+
+// Render history on page load
+renderHistory();
