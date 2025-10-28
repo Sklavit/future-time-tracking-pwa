@@ -3,11 +3,50 @@ body {
   text-align: center;
   margin: 20px;
 }
+
+#categories {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+#categories button {
+  padding: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  border: 2px solid #333;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#categories button:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.05);
+}
+
+#categories button:active {
+  transform: scale(0.95);
+}
+
+#stop-btn {
+  background-color: #ffcccc !important;
+  border-color: #cc0000 !important;
+}
+
+#stop-btn:hover {
+  background-color: #ffaaaa !important;
+}
+
 button {
   margin: 5px;
   padding: 10px 20px;
   font-size: 16px;
 }
+
 #status {
   margin-top: 20px;
 }

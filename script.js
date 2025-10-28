@@ -24,6 +24,16 @@ function startCategory(category) {
     localStorage.setItem("logs", JSON.stringify(logs));
   }
 
+  // If Stop button clicked, just stop tracking
+  if (category === "Stop") {
+    activeCategory = null;
+    startTime = null;
+    document.getElementById("active-category").textContent = "None";
+    document.getElementById("elapsed").textContent = "00:00:00";
+    if (timerInterval) clearInterval(timerInterval);
+    return;
+  }
+
   // Start new
   activeCategory = category;
   startTime = now;
