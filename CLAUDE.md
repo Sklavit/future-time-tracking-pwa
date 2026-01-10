@@ -12,7 +12,8 @@ The `/planning` directory contains structured documentation for development and 
 ```
 /planning
 ├── todo.md                          # Current development status and requirements
-├── features/                        # Feature specifications
+├── features/                        # Already implemented features (documentation)
+├── requests/                        # Feature specifications (to be implemented)
 │   ├── cards.md                     # Card management and display
 │   ├── spaced_repetition.md         # SM-2 algorithm details
 │   ├── decks.md                     # Multi-deck support
@@ -35,11 +36,11 @@ The `/planning` directory contains structured documentation for development and 
 
 **Before Starting Work:**
 1. Check `/planning/todo.md` for current requirements
-2. Review relevant feature files in `/planning/features/`
+2. Review relevant feature requests in `/planning/requests/`
 3. Read design decisions in `/planning/design_decisions/` to understand why current architecture exists
 
 **When Adding Features:**
-1. Check if feature is documented in `/planning/features/`
+1. Check if feature is documented in `/planning/requests/`
 2. Ensure implementation matches documented data structure and API
 3. Reference line numbers from spec in code comments when complex
 
@@ -82,7 +83,8 @@ The `/planning` directory contains structured documentation for development and 
 ├── CLAUDE.md               # This documentation
 └── planning/               # Development planning and specs
     ├── todo.md
-    ├── features/
+    ├── features/           # Implemented features
+    ├── requests/           # Feature specifications
     ├── design_decisions/
     └── future/
 ```
@@ -180,7 +182,7 @@ The `/planning` directory contains structured documentation for development and 
    - Merges or replaces existing data
    - Updates UI after import
 
-See `/planning/features/` for detailed function specifications.
+See `/planning/requests/` for detailed function specifications.
 
 ### User Interface
 
@@ -402,15 +404,15 @@ See `/planning/future/` for detailed specifications. Key areas:
 ### Working with Planning Documents
 
 **Before Implementing a Feature:**
-1. Find the feature in `/planning/features/*.md`
+1. Find the feature in `/planning/requests/*.md`
 2. Review data structures and function signatures
 3. Note the expected behavior and edge cases
 4. Reference the planning doc in your code comments
 
 **When Implementing Core Logic:**
 1. Check `/planning/design_decisions/` for architecture choices
-2. SM-2 algorithm: See `/planning/features/spaced_repetition.md`
-3. Data structures: See `/planning/features/cards.md`
+2. SM-2 algorithm: See `/planning/requests/spaced_repetition.md`
+3. Data structures: See `/planning/requests/cards.md`
 4. Remember: Keep implementation matching the spec
 
 **When Fixing Bugs:**
@@ -418,6 +420,13 @@ See `/planning/future/` for detailed specifications. Key areas:
 2. Verify against planning spec
 3. Update planning docs if spec was incomplete
 4. Test fix thoroughly
+
+**When Implementing a Feature:**
+1. Complete the feature according to `/planning/requests/` specification
+2. Test thoroughly with all use cases
+3. Create documentation in `/planning/features/` describing what was implemented
+4. Move the completed request to an archive if desired
+5. Update `/planning/todo.md` to mark feature as complete
 
 ### Common Development Tasks
 
@@ -428,20 +437,20 @@ See `/planning/future/` for detailed specifications. Key areas:
 4. Test persistence across page reload
 
 **Modifying SM-2 Algorithm:**
-1. Review `/planning/features/spaced_repetition.md`
+1. Review `/planning/requests/spaced_repetition.md`
 2. Document change in code comments
 3. Test with various quality ratings (0-5)
 4. Verify ease factor stays in 1.3-2.5 range
 5. Check interval calculations
 
 **Creating a New Deck:**
-1. Reference `/planning/features/decks.md`
+1. Reference `/planning/requests/decks.md`
 2. Generate unique ID
 3. Save to localStorage
 4. Update UI deck selector
 
 **Exporting/Importing Data:**
-1. Follow format in feature specs
+1. Follow format in `/planning/requests/` specs
 2. Include timestamps for reproducibility
 3. Handle missing/extra fields gracefully
 4. Test round-trip (export then import)
