@@ -1,103 +1,74 @@
-# Spaced Repetition Algorithm
+# User Story: Spaced Repetition Learning
 
-## Algorithm Choice: SM-2 (SuperMemo 2)
+## Overview
+As a learner, I want the app to schedule my card reviews intelligently so I study cards at optimal times for long-term retention.
 
-Simple, proven, and efficient algorithm suitable for this application.
+## User Stories
 
-## SM-2 Formula
+### Smart Review Scheduling
+**As a learner, I want cards scheduled based on how well I remember them**
+- Cards I struggle with appear sooner
+- Cards I know well appear less frequently
+- The app learns my learning curve over time
+- I can review about 20-30 cards per day comfortably
 
-### Interval Calculation
-```
-If quality >= 3:
-  if repetitions == 0:
-    interval = 1
-  else if repetitions == 1:
-    interval = 3
-  else:
-    interval = previous_interval * easeFactor
+### See When Cards Are Due
+**As a learner, I want to know which cards need review today**
+- I can see "5 cards due today" at a glance
+- I can distinguish between new cards and review cards
+- I get a count of cards in each study stage
+- I can see when the next card will be due after today
 
-If quality < 3:
-  repetitions = 0
-  interval = 1
-```
+### Rate How Well I Remember
+**As a learner, I want to rate how well I knew each card on a scale**
+- 0 = Completely forgot
+- 1 = Very hard to recall
+- 2 = Hard but I got it
+- 3 = Got it with difficulty
+- 4 = Got it with some doubt
+- 5 = Perfect, instant recall
 
-### Ease Factor Adjustment
-```
-easeFactor = easeFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02))
+### Progress Adjustment
+**As a learner, I want the algorithm to adapt to my learning**
+- Cards I rate 5 appear much less frequently
+- Cards I rate 0-2 appear again soon
+- The app adjusts the difficulty of each card individually
+- My learning pattern improves the algorithm over time
 
-Constraints:
-- Minimum easeFactor: 1.3
-- Maximum easeFactor: 2.5
-```
+### Time Travel Review
+**As a learner, I want to catch up on missed reviews**
+- I can select any past date
+- I can review cards as if I had reviewed on that date
+- I can adjust my progress retroactively
+- Useful for catching up after a break
 
-## Implementation Details
+### Statistics and Insights
+**As a learner, I want to understand my learning progress**
+- I can see my current learning rate
+- I can see how many cards I've mastered
+- I can see my average interval between reviews
+- I can see how my ease factor is changing
 
-### Variables per Card Progress
-- `interval`: Days until next review
-- `easeFactor`: Multiplier for interval growth (1.3-2.5)
-- `repetitions`: Number of successful reviews
-- `nextReview`: Unix timestamp when card is due
-- `lastReview`: Timestamp of last review
+## Algorithm Details
 
-### Initial Values
-```javascript
-interval = 1,
-easeFactor = 2.5,
-repetitions = 0,
-nextReview = Date.now(), // Due immediately
-lastReview = null
-```
+The app uses SM-2 (SuperMemo 2) algorithm:
+- Simple but effective
+- Used by millions of learners
+- Proven to maximize retention
+- Adjusts to individual learner patterns
 
-## Review Scheduling
+## Related Documentation
 
-### Due Cards
-- Cards where `nextReview <= now` are due
-- Sort by due date (oldest first)
-- Display in order for optimal learning
+- **Technical Implementation**: See `/planning/todo/spaced_repetition.md` for algorithm details
+- **Related Stories**: See `/planning/requests/progress_tracking.md` (viewing progress)
+- **Related Stories**: See `/planning/requests/cards.md` (rating cards affects scheduling)
 
-### Random Selection
-- When due cards exist, randomly select from due cards
-- Prevents predictable patterns
-- Better learning retention
+## Acceptance Criteria
 
-### Next Review Time
-```javascript
-nextReviewTime = now + (interval * 24 * 60 * 60 * 1000)
-```
-
-## Quality Ratings & Impact
-
-| Rating | Description | Effect |
-|--------|-------------|--------|
-| 0 | Complete failure | Reset to interval=1 |
-| 1 | Incorrect, hard to recall | Reset to interval=1 |
-| 2 | Incorrect, easy to recall | Reset to interval=1 |
-| 3 | Correct, with difficulty | Increase interval |
-| 4 | Correct, some hesitation | Increase interval more |
-| 5 | Perfect, instant recall | Increase interval most |
-
-## Considerations
-
-### Time Travel Support
-- Manually adjust `nextReview` timestamp
-- Allow reviewing cards on past/future dates
-- Recalculate progress based on selected date
-
-### Batch Operations
-- Update multiple cards at once
-- Useful for bulk reviews or resets
-
-### Reset Mechanics
-- Allow full reset of a card's progress
-- Useful for relearning or correcting errors
-
-## Statistics
-
-Track per-deck:
-- Total cards
-- Cards due today
-- New cards (never reviewed)
-- Cards in learning (interval < 7 days)
-- Cards in review (interval >= 7 days)
-- Average ease factor
-- Average interval
+✓ Cards due today show correctly
+✓ Review dates update when I rate cards
+✓ Algorithm adapts to my ratings
+✓ Time travel function works for past dates
+✓ Statistics display accurately
+✓ No cards appear more than once per day (unless I choose)
+✓ Spacing works correctly for 100+ days ahead

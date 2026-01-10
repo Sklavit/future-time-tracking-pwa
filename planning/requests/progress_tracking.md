@@ -1,114 +1,60 @@
-# Progress Tracking & Learning Statistics
+# User Story: Track Learning Progress
 
 ## Overview
-Track individual card performance and aggregate deck-level learning statistics.
+As a learner, I want to see my learning progress and statistics so I can understand how well I'm learning and stay motivated.
 
-## Card Progress Data
+## User Stories
 
-```javascript
-{
-  cardId: string,
-  deckId: string,
-  interval: number,        // Days until next review
-  easeFactor: number,      // SM-2 factor (1.3-2.5)
-  repetitions: number,     // Number of times reviewed successfully
-  nextReview: number,      // Unix timestamp (ms)
-  lastReview: number,      // Unix timestamp of last review
-  quality: number,         // Quality of last review (0-5)
-  reviewHistory: [         // Array of past reviews
-    {
-      date: number,        // Review timestamp
-      quality: number,     // Rating given (0-5)
-      interval: number,    // Interval at that time
-      easeFactor: number   // Ease factor at that time
-    }
-  ]
-}
-```
+### View Card Progress
+**As a learner, I want to see progress for each card**
+- I can see how many times I've reviewed this card
+- I can see my average rating for this card
+- I can see my current interval (how long until next review)
+- I can see when I last reviewed it
+- I can see when it's due next
 
-## Per-Card Display
+### View Deck Statistics
+**As a learner, I want deck-level statistics**
+- I can see total cards in the deck
+- I can see cards due today count
+- I can see cards in learning (short intervals)
+- I can see cards in review (longer intervals)
+- I can see cards mastered (30+ day intervals)
+- I can see my average learning speed
 
-When reviewing a card, show:
-- Card front (question)
-- Reveal answer on demand
-- Last reviewed: `X days ago` or "Never"
-- Next due: `in X days` or "Due now"
-- Total reviews: `N reviews`
-- Current ease factor: `1.5`
-- Current interval: `7 days`
+### See Progress Visually
+**As a learner, I want visual indicators of my progress**
+- Progress bars showing learning stage
+- Color-coded buttons (red for new, orange for learning, green for review, blue for mastered)
+- Pie charts or graphs of deck composition
+- Learning streak indicator
 
-## Deck-Level Statistics
+### Export My Progress
+**As a learner, I want to download my learning data**
+- I can export all my cards and progress as JSON
+- I can export statistics as CSV for analysis
+- I can use this data with other tools
+- The export includes timestamps for accuracy
 
-### Overview Stats
-- **Total Cards**: Count of all cards in deck
-- **Due Today**: Cards where nextReview <= today
-- **Cards Scheduled**: Cards with nextReview > today
-- **Never Reviewed**: Cards with lastReview === null
-- **Mastered**: Cards with interval >= 30 days
+### See Learning Trends
+**As a learner, I want to understand my learning patterns**
+- I can see which cards I struggle with
+- I can see which cards I've mastered
+- I can see my learning rate over time
+- I can see my average ease factor changing
 
-### Learning Progress
-- **Learning**: Cards with interval < 7 days
-- **Review**: Cards with interval 7-29 days
-- **Mastered**: Cards with interval >= 30 days
-- **Percentage**: Visual breakdown of above
+## Related Documentation
 
-### Performance Metrics
-- **Average Ease Factor**: Mean of all ease factors
-- **Average Interval**: Mean of current intervals
-- **Repetitions**: Total reviews across all cards
-- **Last Studied**: Date of most recent review
+- **Technical Implementation**: See `/planning/todo/progress_tracking.md` for how to build this
+- **Related Stories**: See `/planning/requests/spaced_repetition.md` (how scheduling works)
+- **Related Stories**: See `/planning/requests/cards.md` (reviewing cards creates progress)
 
-## Progress Visualization
+## Acceptance Criteria
 
-### Simple Progress Bars
-Per card:
-```
-Question here...
-[████████░░] Interval: 7 days
-Reviewed 5 times | Last: 2 days ago
-```
-
-### Deck Summary
-```
-Deck: Spanish Vocabulary
-Total: 50 cards | Due: 12 | Learning: 8 | Mastered: 30
-Average Interval: 12 days | Last Studied: Today
-```
-
-## Time Travel Support
-
-Allow user to:
-- Select any past date
-- View which cards were due on that date
-- Manually review those cards as if in the past
-- Update progress with the past timestamp
-- Useful for catching up or reviewing history
-
-### Implementation
-- Date picker in UI
-- Filter cards by due date <= selected date
-- When rating, use selected date for calculations
-- Update nextReview relative to selected date
-
-## Data Persistence
-
-Progress data stored in localStorage:
-- Key: `cardProgress` or similar
-- Format: Array of progress records indexed by cardId
-- Update on every review
-- Backup/restore on page load
-
-## Export/Analysis
-
-Support exporting progress:
-- JSON format for external analysis
-- Include full history per card
-- Include deck summary statistics
-- Timestamp for reproducibility
-
-## Reset Mechanics
-
-Options to reset:
-- Reset single card (keeps edit history, clears review history)
-- Reset deck (clears all progress, keeps cards)
-- Archive completed cards (move to "done" state)
+✓ Card progress displays accurately
+✓ Deck statistics calculate correctly
+✓ Visual indicators match card status
+✓ Export works in multiple formats
+✓ Progress persists across sessions
+✓ Statistics update after each review
+✓ Large datasets (10000+ cards) calculate efficiently

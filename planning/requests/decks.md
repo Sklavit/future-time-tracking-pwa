@@ -1,99 +1,63 @@
-# Named Decks (Card Collections)
+# User Story: Organize Cards into Decks
 
 ## Overview
-Users can organize cards into named decks for different subjects, courses, or learning goals.
+As a learner with multiple subjects, I want to organize my cards into separate decks so I can focus on one topic at a time.
 
-## Deck Data Structure
+## User Stories
 
-```javascript
-{
-  id: string,              // Unique identifier
-  name: string,            // User-facing deck name
-  description: string,     // Optional description
-  createdAt: number,       // Creation timestamp
-  updatedAt: number,       // Last modification timestamp
-  cardCount: number,       // Number of cards in deck
-  color: string,           // Optional visual identifier (hex color)
-  isDefault: boolean,      // Is this the default deck?
-}
-```
+### Create Decks
+**As a learner, I want to create multiple decks**
+- I can name each deck for a subject or course
+- I can add a description for the deck's purpose
+- I can optionally assign a color for quick recognition
+- Each deck starts empty and ready for cards
 
-## Storage Strategy
+### Switch Decks
+**As a learner, I want to easily switch between decks**
+- I can see all my decks in a dropdown or list
+- I can switch decks instantly
+- The app remembers which deck I was studying
+- Cards and progress are deck-specific
 
-All decks and cards stored in localStorage under:
-- `decks`: Array of deck metadata
-- `cards`: Array of all cards (with deckId reference)
-- `progress`: Array of progress tracking data
+### View Deck Stats
+**As a learner, I want to see progress for each deck**
+- I can see how many total cards in the deck
+- I can see how many cards are due today
+- I can see cards in learning vs. mastered
+- I can see average interval and ease factor
 
-## Default Deck
+### Edit Decks
+**As a learner, I want to manage my decks**
+- I can rename a deck
+- I can update the description
+- I can change the color
+- I can archive old decks
 
-### Initial State
-- "Sample Deck" provided with test cards
-- Contains basic cards to demonstrate functionality
-- Can be deleted by user if desired
+### Delete Decks
+**As a learner, I want to remove decks I don't need**
+- I can delete a deck and its cards
+- I get confirmation before deletion
+- I have the option to archive instead
 
-### Sample Cards
-Example cards for testing:
-```
-Q: What is the capital of France?
-A: Paris
+### Sample Deck
+**As a new user, I want to try the app immediately**
+- The app provides a "Sample" deck with test cards
+- I can study the sample to learn how the app works
+- I can delete the sample when ready
+- Sample deck includes: "What is the capital of France?", "What is 2 + 2?", "How do you say hello in Spanish?"
 
-Q: What is 2 + 2?
-A: 4
+## Related Documentation
 
-Q: How do you say 'hello' in Spanish?
-A: Hola
-```
+- **Technical Implementation**: See `/planning/todo/decks.md` for how to build this
+- **Related Stories**: See `/planning/requests/cards.md` (cards belong to decks)
+- **Related Stories**: See `/planning/requests/progress_tracking.md` (deck statistics)
 
-## Deck Operations
+## Acceptance Criteria
 
-### Create Deck
-- Modal form with name and optional description
-- Validation: Name required, unique per user session
-- Initialize empty cardCount
-
-### Switch Deck
-- Select from dropdown/list
-- Load all cards for that deck
-- Show deck-specific progress
-- Preserve review state
-
-### Edit Deck
-- Rename deck
-- Update description
-- Change color
-- Preserve all card data
-
-### Delete Deck
-- Confirmation dialog
-- Cascade delete all cards in deck
-- Cascade delete all progress records
-- Cannot delete if only deck remaining (option: archive)
-
-## Deck Statistics
-
-Per deck, track:
-- Total cards
-- Cards due today
-- Cards never reviewed
-- Cards in learning phase
-- Cards in review phase
-- Average ease factor
-- Average review interval
-- Last studied: timestamp
-
-## Deck Visibility
-
-In main UI:
-- Deck selector/switcher (top of screen)
-- Current deck name displayed prominently
-- Quick stats for current deck
-- "Create New Deck" button
-
-## Bulk Deck Operations
-
-- [ ] Duplicate entire deck
-- [ ] Merge decks
-- [ ] Export deck with progress
-- [ ] Import deck from file
-- [ ] Share deck (future)
+✓ Users can create, read, update, delete decks
+✓ Deck switching works instantly
+✓ Cards stay with their deck
+✓ Progress is tracked per deck
+✓ Sample deck included for new users
+✓ Color selector works with custom colors
+✓ Archive feature preserves data safely

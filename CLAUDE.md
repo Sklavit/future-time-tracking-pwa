@@ -11,15 +11,22 @@ The `/planning` directory contains structured documentation for development and 
 ### Directory Structure
 ```
 /planning
-├── todo.md                          # Current development status and requirements
-├── features/                        # Already implemented features (documentation)
-├── requests/                        # Feature specifications (to be implemented)
-│   ├── cards.md                     # Card management and display
-│   ├── spaced_repetition.md         # SM-2 algorithm details
-│   ├── decks.md                     # Multi-deck support
-│   ├── progress_tracking.md         # Learning statistics
-│   ├── llm_integration.md           # LLM-powered generation
-│   └── ui_layout.md                 # UI/UX design
+├── in-progress.md                   # Current sprint tasks and priorities
+├── done/                            # Completed features (implementation docs)
+├── requests/                        # User stories (what to build)
+│   ├── cards.md                     # User story: Create, edit, manage cards
+│   ├── spaced_repetition.md         # User story: Smart review scheduling
+│   ├── decks.md                     # User story: Organize into decks
+│   ├── progress_tracking.md         # User story: View learning progress
+│   ├── llm_integration.md           # User story: AI card generation
+│   └── ui_layout.md                 # User story: Clean, minimal interface
+├── todo/                            # Technical tasks (how to build)
+│   ├── cards.md                     # Task: Implement card CRUD
+│   ├── spaced_repetition.md         # Task: Implement SM-2 algorithm
+│   ├── decks.md                     # Task: Implement deck management
+│   ├── progress_tracking.md         # Task: Implement statistics tracking
+│   ├── llm_integration.md           # Task: Implement LLM integration
+│   └── ui_layout.md                 # Task: Build user interface
 ├── design_decisions/                # Architectural decisions
 │   ├── spa_vs_pwa.md               # Why PWA approach
 │   ├── storage_strategy.md         # localStorage vs IndexedDB
@@ -35,14 +42,17 @@ The `/planning` directory contains structured documentation for development and 
 ### Using Planning Documents During Development
 
 **Before Starting Work:**
-1. Check `/planning/todo.md` for current requirements
-2. Review relevant feature requests in `/planning/requests/`
-3. Read design decisions in `/planning/design_decisions/` to understand why current architecture exists
+1. Check `/planning/in-progress.md` for current sprint tasks
+2. Review the user story in `/planning/requests/{feature}.md`
+3. Review the technical task in `/planning/todo/{feature}.md`
+4. Read design decisions in `/planning/design_decisions/` to understand architecture
 
 **When Adding Features:**
-1. Check if feature is documented in `/planning/requests/`
-2. Ensure implementation matches documented data structure and API
-3. Reference line numbers from spec in code comments when complex
+1. Read the user story in `/planning/requests/{feature}.md` (what users want)
+2. Follow the technical tasks in `/planning/todo/{feature}.md` (how to implement)
+3. Ensure implementation matches data structures and function signatures
+4. Reference planning docs in code comments when complex
+5. When complete, create implementation docs in `/planning/done/`
 
 **When Making Architectural Decisions:**
 1. Review `/planning/design_decisions/` for previous rationales
@@ -82,11 +92,12 @@ The `/planning` directory contains structured documentation for development and 
 ├── service-worker.js       # Service worker for offline support
 ├── CLAUDE.md               # This documentation
 └── planning/               # Development planning and specs
-    ├── todo.md
-    ├── features/           # Implemented features
-    ├── requests/           # Feature specifications
-    ├── design_decisions/
-    └── future/
+    ├── in-progress.md      # Current sprint tasks
+    ├── done/               # Completed feature documentation
+    ├── requests/           # User stories (what to build)
+    ├── todo/               # Technical tasks (how to build)
+    ├── design_decisions/   # Architecture decisions
+    └── future/             # Post-MVP ideas
 ```
 
 ## Implementation Details
@@ -403,30 +414,47 @@ See `/planning/future/` for detailed specifications. Key areas:
 
 ### Working with Planning Documents
 
+**Planning Directory Organization:**
+- `/planning/requests/` = User stories (what users want)
+- `/planning/todo/` = Technical tasks (how to implement)
+- `/planning/done/` = Completed features (implementation docs)
+- `/planning/in-progress.md` = Current sprint priorities
+- Files are cross-linked (each requests/*.md links to todo/*.md and vice versa)
+
 **Before Implementing a Feature:**
-1. Find the feature in `/planning/requests/*.md`
-2. Review data structures and function signatures
-3. Note the expected behavior and edge cases
-4. Reference the planning doc in your code comments
+1. Check `/planning/in-progress.md` for current priorities
+2. Read the user story in `/planning/requests/{feature}.md` (understand what users want)
+3. Read the technical task in `/planning/todo/{feature}.md` (understand how to build it)
+4. Review data structures, function signatures, and testing requirements
+5. Note cross-references to related features
+6. Reference planning docs in your code comments
 
 **When Implementing Core Logic:**
 1. Check `/planning/design_decisions/` for architecture choices
-2. SM-2 algorithm: See `/planning/requests/spaced_repetition.md`
-3. Data structures: See `/planning/requests/cards.md`
-4. Remember: Keep implementation matching the spec
+2. SM-2 algorithm: See `/planning/requests/spaced_repetition.md` (user story) + `/planning/todo/spaced_repetition.md` (tasks)
+3. Data structures: See `/planning/requests/cards.md` (user story) + `/planning/todo/cards.md` (implementation)
+4. Follow the technical tasks in order
+5. Keep implementation matching the spec exactly
 
 **When Fixing Bugs:**
 1. Determine if bug is in logic or data
-2. Verify against planning spec
-3. Update planning docs if spec was incomplete
-4. Test fix thoroughly
+2. Verify against user story in `/planning/requests/{feature}.md`
+3. Verify against technical task in `/planning/todo/{feature}.md`
+4. Update planning docs if spec was incomplete
+5. Test fix thoroughly
 
-**When Implementing a Feature:**
-1. Complete the feature according to `/planning/requests/` specification
+**When Completing a Feature:**
+1. Complete the feature according to `/planning/requests/` (user story) and `/planning/todo/` (technical task) specifications
 2. Test thoroughly with all use cases
-3. Create documentation in `/planning/features/` describing what was implemented
-4. Move the completed request to an archive if desired
-5. Update `/planning/todo.md` to mark feature as complete
+3. Create implementation documentation in `/planning/done/{feature}.md` describing what was implemented
+4. Update `/planning/in-progress.md` to mark feature as complete
+5. Note any deviations from original spec and why
+
+**When Starting New Development:**
+1. Move feature from `/planning/requests/` into `/planning/in-progress.md`
+2. Follow technical tasks from `/planning/todo/{feature}.md`
+3. Update acceptance criteria checklist as you progress
+4. Cross-reference related features in comments
 
 ### Common Development Tasks
 
@@ -437,23 +465,27 @@ See `/planning/future/` for detailed specifications. Key areas:
 4. Test persistence across page reload
 
 **Modifying SM-2 Algorithm:**
-1. Review `/planning/requests/spaced_repetition.md`
-2. Document change in code comments
-3. Test with various quality ratings (0-5)
-4. Verify ease factor stays in 1.3-2.5 range
-5. Check interval calculations
+1. Review user story in `/planning/requests/spaced_repetition.md`
+2. Review technical task in `/planning/todo/spaced_repetition.md`
+3. Document change in code comments with reference to planning
+4. Test with various quality ratings (0-5)
+5. Verify ease factor stays in 1.3-2.5 range
+6. Check interval calculations
 
 **Creating a New Deck:**
-1. Reference `/planning/requests/decks.md`
-2. Generate unique ID
-3. Save to localStorage
-4. Update UI deck selector
+1. Reference user story in `/planning/requests/decks.md`
+2. Follow tasks in `/planning/todo/decks.md`
+3. Generate unique ID
+4. Save to localStorage
+5. Update UI deck selector
+6. Verify against acceptance criteria
 
 **Exporting/Importing Data:**
-1. Follow format in `/planning/requests/` specs
-2. Include timestamps for reproducibility
-3. Handle missing/extra fields gracefully
-4. Test round-trip (export then import)
+1. Reference `/planning/requests/cards.md` for user expectations
+2. Follow format specs in `/planning/todo/cards.md`
+3. Include timestamps for reproducibility
+4. Handle missing/extra fields gracefully
+5. Test round-trip (export then import)
 
 ### Testing Checklist
 
