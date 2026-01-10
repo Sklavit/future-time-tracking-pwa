@@ -20,6 +20,14 @@ The `/planning` directory contains structured documentation for development and 
 │   ├── progress_tracking.md         # User story: View learning progress
 │   ├── llm_integration.md           # User story: AI card generation
 │   └── ui_layout.md                 # User story: Clean, minimal interface
+├── specs/                           # Implementation specifications
+│   ├── README.md                    # How to use specs
+│   ├── cards.md                     # Spec: Card system structure
+│   ├── spaced_repetition.md         # Spec: SM-2 algorithm implementation
+│   ├── decks.md                     # Spec: Deck management structure
+│   ├── progress_tracking.md         # Spec: Statistics & tracking
+│   ├── llm_integration.md           # Spec: LLM integration architecture
+│   └── ui_layout.md                 # Spec: UI component structure
 ├── todo/                            # Technical tasks (how to build)
 │   ├── cards.md                     # Task: Implement card CRUD
 │   ├── spaced_repetition.md         # Task: Implement SM-2 algorithm
@@ -43,16 +51,21 @@ The `/planning` directory contains structured documentation for development and 
 
 **Before Starting Work:**
 1. Check `/planning/in-progress.md` for current sprint tasks
-2. Review the user story in `/planning/requests/{feature}.md`
-3. Review the technical task in `/planning/todo/{feature}.md`
-4. Read design decisions in `/planning/design_decisions/` to understand architecture
+2. Read the user story in `/planning/requests/{feature}.md` (understand what users want)
+3. Review the specification in `/planning/specs/{feature}.md` (understand implementation structure)
+4. Follow the technical tasks in `/planning/todo/{feature}.md` (detailed implementation steps)
+5. Read design decisions in `/planning/design_decisions/` to understand architecture
 
 **When Adding Features:**
-1. Read the user story in `/planning/requests/{feature}.md` (what users want)
-2. Follow the technical tasks in `/planning/todo/{feature}.md` (how to implement)
-3. Ensure implementation matches data structures and function signatures
-4. Reference planning docs in code comments when complex
-5. When complete, create implementation docs in `/planning/done/`
+1. Read the user story in `/planning/requests/{feature}.md` - WHAT users want
+2. Check `/planning/specs/{feature}.md` - HOW the system should be structured
+   - Review file structure, functions, data model, component interactions
+   - Check implementation notes and considerations
+3. Follow the technical tasks in `/planning/todo/{feature}.md` - DETAILED STEPS
+4. Implement in code matching the spec exactly
+5. Update `/planning/specs/{feature}.md` with actual implementation if it differs
+6. Reference planning docs in code comments (line numbers or section names)
+7. When complete, create documentation in `/planning/done/{feature}.md`
 
 **When Making Architectural Decisions:**
 1. Review `/planning/design_decisions/` for previous rationales
@@ -431,10 +444,20 @@ See `/planning/future/` for detailed specifications. Key areas:
 
 **When Implementing Core Logic:**
 1. Check `/planning/design_decisions/` for architecture choices
-2. SM-2 algorithm: See `/planning/requests/spaced_repetition.md` (user story) + `/planning/todo/spaced_repetition.md` (tasks)
-3. Data structures: See `/planning/requests/cards.md` (user story) + `/planning/todo/cards.md` (implementation)
-4. Follow the technical tasks in order
-5. Keep implementation matching the spec exactly
+2. Consult the spec file for file structure and function signatures
+3. SM-2 algorithm example:
+   - User story: `/planning/requests/spaced_repetition.md`
+   - Spec: `/planning/specs/spaced_repetition.md` (implementation structure and formulas)
+   - Tasks: `/planning/todo/spaced_repetition.md` (detailed step-by-step)
+4. Follow the technical tasks in order, matching the spec exactly
+5. Keep code organized according to the spec file structure
+6. Reference the spec in code comments: "See /planning/specs/cards.md:45"
+
+**After Implementing a Feature:**
+1. Update `/planning/specs/{feature}.md` to reflect actual implementation
+2. Note any deviations from the planned spec and why
+3. Add actual line numbers if significantly different
+4. Document key decisions made during implementation
 
 **When Fixing Bugs:**
 1. Determine if bug is in logic or data
@@ -458,11 +481,35 @@ See `/planning/future/` for detailed specifications. Key areas:
 
 ### Common Development Tasks
 
+**Understanding the Specification Workflow:**
+The three-document approach for each feature:
+1. **requests/** = "What does the user need?" (user stories, acceptance criteria)
+2. **specs/** = "How should we structure this?" (file layout, functions, data models)
+3. **todo/** = "What are the detailed steps?" (task-by-task implementation)
+4. **done/** = "What did we build?" (documentation after completion)
+
+Example: Implementing cards feature
+```
+Start: Read /planning/requests/cards.md (user stories)
+  ↓
+Check: /planning/specs/cards.md (understand file structure, functions)
+  ↓
+Follow: /planning/todo/cards.md (implementation tasks)
+  ↓
+Code: Write script.js following spec structure
+  ↓
+Update: /planning/specs/cards.md (reflect actual implementation)
+  ↓
+Document: /planning/done/cards.md (explain what was built)
+```
+
 **Adding a Card Property:**
-1. Update card structure in both `.md` files and code
-2. Update storage serialization if needed
-3. Update export/import functions
-4. Test persistence across page reload
+1. Check `/planning/specs/cards.md` for current data model structure
+2. Update card structure in spec and code
+3. Update storage serialization if needed
+4. Update export/import functions
+5. Update `/planning/specs/cards.md` to reflect the change
+6. Test persistence across page reload
 
 **Modifying SM-2 Algorithm:**
 1. Review user story in `/planning/requests/spaced_repetition.md`
